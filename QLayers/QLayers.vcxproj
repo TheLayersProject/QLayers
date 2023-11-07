@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+***************************************************************************************************
+ Copyright (C) 2023 The Qt Company Ltd.
+ SPDX-License-Identifier: LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only
+***************************************************************************************************
+-->
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EEFD8BDE-87B8-4841-94CF-EE119A73541B}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
+    <QtInstall>6.5</QtInstall>
+    <QtModules>core;network;svg;widgets</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
+    <QtInstall>6.5</QtInstall>
+    <QtModules>core;network;svg;widgets</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(Layers)Layers\include;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(Layers)$(IntDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Layersd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(Layers)Layers\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(Layers)x64\Release\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Layers.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>del /q "$(SolutionDir)$(IntDir)QLayers.exp"
+
+mkdir "$(SolutionDir)$(IntDir)bin"
+mkdir "$(SolutionDir)$(IntDir)include"
+mkdir "$(SolutionDir)$(IntDir)lib"
+
+move "$(SolutionDir)$(IntDir)QLayers.dll" "$(SolutionDir)$(IntDir)bin\"
+xcopy /y /d /i /r "$(SolutionDir)x64\Debug\QLayersd.dll" "$(SolutionDir)$(IntDir)bin\"
+
+move "$(SolutionDir)$(IntDir)QLayers.lib" "$(SolutionDir)$(IntDir)lib\"
+xcopy /y /d /i /r "$(SolutionDir)x64\Debug\QLayersd.lib" "$(SolutionDir)$(IntDir)lib\"
+
+xcopy /y /d /i /r "$(SolutionDir)QLayers\include\QLayers" "$(SolutionDir)$(IntDir)include\QLayers\"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>QLAYERS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ClCompile>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>QLAYERS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\QLayers\qlayers_global.h" />
+    <ClInclude Include="include\QLayers\qlgithubrepo.h" />
+    <ClInclude Include="include\QLayers\qlgraphic.h" />
+    <ClInclude Include="include\QLayers\qlimagesequence.h" />
+    <ClInclude Include="include\QLayers\qlmetatypes.h" />
+    <ClInclude Include="include\QLayers\qlpaint.h" />
+    <ClInclude Include="include\QLayers\qlpaths.h" />
+    <ClInclude Include="include\QLayers\qlsystem.h" />
+    <ClInclude Include="include\QLayers\qlthemeable.h" />
+    <ClInclude Include="include\QLayers\qlthemeablebox.h" />
+    <ClInclude Include="src\qlgradienteditoritem.h" />
+    <QtMoc Include="src\qlthemeswidget.h" />
+    <QtMoc Include="src\qlsettingstab.h" />
+    <QtMoc Include="src\qlsettingsmenu.h" />
+    <QtMoc Include="src\qlnewlinkwidget.h" />
+    <QtMoc Include="src\qlmainwindowtitlebar.h" />
+    <QtMoc Include="src\qllinksview.h" />
+    <QtMoc Include="include\QLayers\qlwidget.h" />
+    <QtMoc Include="include\QLayers\qlupdatedialog.h" />
+    <QtMoc Include="include\QLayers\qltoggleswitch.h" />
+    <QtMoc Include="include\QLayers\qlthemeview.h" />
+    <QtMoc Include="include\QLayers\qlthememodel.h" />
+    <QtMoc Include="include\QLayers\qlthemelineagemodel.h" />
+    <QtMoc Include="include\QLayers\qlthemeeditordialog.h" />
+    <QtMoc Include="include\QLayers\qlthemecreatordialog.h" />
+    <QtMoc Include="include\QLayers\qlthemecompatibilityitemdelegate.h" />
+    <QtMoc Include="include\QLayers\qlthemecompatibilitycautiondialog.h" />
+    <QtMoc Include="include\QLayers\qlthemecomboboxitemmodel.h" />
+    <QtMoc Include="include\QLayers\qlthemecomboboxitemdelegate.h" />
+    <QtMoc Include="include\QLayers\qlthemecombobox.h" />
+    <QtMoc Include="include\QLayers\qltableview.h" />
+    <QtMoc Include="include\QLayers\qltabbar.h" />
+    <QtMoc Include="include\QLayers\qltab.h" />
+    <QtMoc Include="include\QLayers\qlsvgrenderer.h" />
+    <QtMoc Include="include\QLayers\qlstatepool.h" />
+    <QtMoc Include="include\QLayers\qlsplitter.h" />
+    <QtMoc Include="include\QLayers\qlslider.h" />
+    <QtMoc Include="include\QLayers\qlscrollbar.h" />
+    <QtMoc Include="include\QLayers\qlscrollarea.h" />
+    <QtMoc Include="include\QLayers\qlresizer.h" />
+    <QtMoc Include="include\QLayers\qlradiobuttonpool.h" />
+    <QtMoc Include="include\QLayers\qlradiobutton.h" />
+    <QtMoc Include="include\QLayers\qlminislider.h" />
+    <QtMoc Include="include\QLayers\qlmenubar.h" />
+    <QtMoc Include="include\QLayers\qlmainwindow.h" />
+    <QtMoc Include="include\QLayers\qllineeditor.h" />
+    <QtMoc Include="include\QLayers\qllabel.h" />
+    <QtMoc Include="include\QLayers\qlheaderview.h" />
+    <QtMoc Include="include\QLayers\qlgrowingdotprogressindicator.h" />
+    <QtMoc Include="include\QLayers\qlgridlineitemdelegate.h" />
+    <QtMoc Include="include\QLayers\qlgradienteditor.h" />
+    <QtMoc Include="include\QLayers\qlgradientdialog.h" />
+    <QtMoc Include="include\QLayers\qlgradientcontrol.h" />
+    <QtMoc Include="include\QLayers\qlfilldialog.h" />
+    <QtMoc Include="include\QLayers\qlfillcontrol.h" />
+    <QtMoc Include="include\QLayers\qldownloader.h" />
+    <QtMoc Include="include\QLayers\qldialog.h" />
+    <QtMoc Include="include\QLayers\qlapplication.h" />
+    <QtMoc Include="include\QLayers\qlattributeeditor.h" />
+    <QtMoc Include="include\QLayers\qlattributeeditorgroup.h" />
+    <QtMoc Include="include\QLayers\qlattributemapitem.h" />
+    <QtMoc Include="include\QLayers\qlattributemapmodel.h" />
+    <QtMoc Include="include\QLayers\qlattributemapview.h" />
+    <QtMoc Include="include\QLayers\qlbutton.h" />
+    <ClInclude Include="include\QLayers\qlcalculate.h" />
+    <ClInclude Include="include\QLayers\qlcolor.h" />
+    <QtMoc Include="include\QLayers\qlcolorcontrol.h" />
+    <QtMoc Include="include\QLayers\qlcolordialog.h" />
+    <QtMoc Include="include\QLayers\qlcolorplane.h" />
+    <QtMoc Include="include\QLayers\qlcombobox.h" />
+    <QtMoc Include="include\QLayers\qlcomboboxitemdelegate.h" />
+    <ClInclude Include="include\QLayers\qlconvert.h" />
+    <ClInclude Include="include\QLayers\qlayers_export.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\qlapplication.cpp" />
+    <ClCompile Include="src\qlattributeeditor.cpp" />
+    <ClCompile Include="src\qlattributeeditorgroup.cpp" />
+    <ClCompile Include="src\qlattributemapitem.cpp" />
+    <ClCompile Include="src\qlattributemapmodel.cpp" />
+    <ClCompile Include="src\qlattributemapview.cpp" />
+    <ClCompile Include="src\qlbutton.cpp" />
+    <ClCompile Include="src\qlcolor.cpp" />
+    <ClCompile Include="src\qlcolorcontrol.cpp" />
+    <ClCompile Include="src\qlcolordialog.cpp" />
+    <ClCompile Include="src\qlcolorplane.cpp" />
+    <ClCompile Include="src\qlcombobox.cpp" />
+    <ClCompile Include="src\qlcomboboxitemdelegate.cpp" />
+    <ClCompile Include="src\qldialog.cpp" />
+    <ClCompile Include="src\qldownloader.cpp" />
+    <ClCompile Include="src\qlfillcontrol.cpp" />
+    <ClCompile Include="src\qlfilldialog.cpp" />
+    <ClCompile Include="src\qlgithubrepo.cpp" />
+    <ClCompile Include="src\qlgradientcontrol.cpp" />
+    <ClCompile Include="src\qlgradientdialog.cpp" />
+    <ClCompile Include="src\qlgradienteditor.cpp" />
+    <ClCompile Include="src\qlgraphic.cpp" />
+    <ClCompile Include="src\qlgridlineitemdelegate.cpp" />
+    <ClCompile Include="src\qlgrowingdotprogressindicator.cpp" />
+    <ClCompile Include="src\qlheaderview.cpp" />
+    <ClCompile Include="src\qlimagesequence.cpp" />
+    <ClCompile Include="src\qllabel.cpp" />
+    <ClCompile Include="src\qllineeditor.cpp" />
+    <ClCompile Include="src\qllinksview.cpp" />
+    <ClCompile Include="src\qlmainwindow.cpp" />
+    <ClCompile Include="src\qlmainwindowtitlebar.cpp" />
+    <ClCompile Include="src\qlmenubar.cpp" />
+    <ClCompile Include="src\qlminislider.cpp" />
+    <ClCompile Include="src\qlnewlinkwidget.cpp" />
+    <ClCompile Include="src\qlpaths.cpp" />
+    <ClCompile Include="src\qlradiobutton.cpp" />
+    <ClCompile Include="src\qlradiobuttonpool.cpp" />
+    <ClCompile Include="src\qlresizer.cpp" />
+    <ClCompile Include="src\qlscrollarea.cpp" />
+    <ClCompile Include="src\qlscrollbar.cpp" />
+    <ClCompile Include="src\qlsettingsmenu.cpp" />
+    <ClCompile Include="src\qlsettingstab.cpp" />
+    <ClCompile Include="src\qlslider.cpp" />
+    <ClCompile Include="src\qlsplitter.cpp" />
+    <ClCompile Include="src\qlstatepool.cpp" />
+    <ClCompile Include="src\qlsvgrenderer.cpp" />
+    <ClCompile Include="src\qltab.cpp" />
+    <ClCompile Include="src\qltabbar.cpp" />
+    <ClCompile Include="src\qltableview.cpp" />
+    <ClCompile Include="src\qlthemeable.cpp" />
+    <ClCompile Include="src\qlthemeablebox.cpp" />
+    <ClCompile Include="src\qlthemecombobox.cpp" />
+    <ClCompile Include="src\qlthemecomboboxitemdelegate.cpp" />
+    <ClCompile Include="src\qlthemecomboboxitemmodel.cpp" />
+    <ClCompile Include="src\qlthemecompatibilitycautiondialog.cpp" />
+    <ClCompile Include="src\qlthemecompatibilityitemdelegate.cpp" />
+    <ClCompile Include="src\qlthemecreatordialog.cpp" />
+    <ClCompile Include="src\qlthemeeditordialog.cpp" />
+    <ClCompile Include="src\qlthemelineagemodel.cpp" />
+    <ClCompile Include="src\qlthememodel.cpp" />
+    <ClCompile Include="src\qlthemeswidget.cpp" />
+    <ClCompile Include="src\qlthemeview.cpp" />
+    <ClCompile Include="src\qltoggleswitch.cpp" />
+    <ClCompile Include="src\qlupdatedialog.cpp" />
+    <ClCompile Include="src\qlwidget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="fonts\Roboto\roboto_font.qrc" />
+    <QtRcc Include="images\images.qrc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
