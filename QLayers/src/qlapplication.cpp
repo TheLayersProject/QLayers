@@ -139,15 +139,15 @@ void QLApplication::apply_theme(LTheme* theme)
 	}
 }
 
-QList<QLThemeable*> QLApplication::q_child_themeables(Qt::FindChildOptions options)
+QList<QLThemeable*> QLApplication::child_qlthemeables(Qt::FindChildOptions options)
 {
-	QList<QLThemeable*> q_child_themeables;
+	QList<QLThemeable*> child_qlthemeables;
 
 	for (QWidget* tl_widget : topLevelWidgets())
 		if (QLThemeable* tl_themeable = dynamic_cast<QLThemeable*>(tl_widget))
-			q_child_themeables.append(tl_themeable);
+			child_qlthemeables.append(tl_themeable);
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
 LTheme* QLApplication::active_theme()
@@ -261,14 +261,14 @@ void QLApplication::download_and_install_update()
 	}
 }
 
-void QLApplication::rename_theme(const QString& theme_id, const std::string& new_name)
+void QLApplication::rename_theme(const QString& theme_id, const QString& new_name)
 {
 	if (m_themes.contains(theme_id))
 	{
 		LTheme* theme = m_themes[theme_id];
 		QDir old_theme_dir = theme->directory();
 
-		theme->set_name(new_name.c_str());
+		theme->set_name(new_name.toStdString().c_str());
 
 		old_theme_dir.rename(
 			old_theme_dir.absoluteFilePath("."),

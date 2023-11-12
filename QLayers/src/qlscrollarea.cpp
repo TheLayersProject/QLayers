@@ -41,18 +41,18 @@ QLScrollArea::QLScrollArea(QWidget* parent) : QScrollArea(parent)
 	m_vertical_scrollbar->set_object_name("Vertical ScrollBar");
 }
 
-QList<QLThemeable*> QLScrollArea::q_child_themeables(
+QList<QLThemeable*> QLScrollArea::child_qlthemeables(
 	Qt::FindChildOptions options)
 {
-	QList<QLThemeable*> q_child_themeables =
-		QLThemeable::q_child_themeables(options);
+	QList<QLThemeable*> child_qlthemeables =
+		QLThemeable::child_qlthemeables(options);
 
-	q_child_themeables.append(m_horizontal_scrollbar);
-	q_child_themeables.append(m_vertical_scrollbar);
+	child_qlthemeables.append(m_horizontal_scrollbar);
+	child_qlthemeables.append(m_vertical_scrollbar);
 
 	if (QLThemeable* themeable_widget = dynamic_cast<QLThemeable*>(widget()))
 	{
-		q_child_themeables.append(themeable_widget);
+		child_qlthemeables.append(themeable_widget);
 
 		if (options == Qt::FindChildrenRecursively)
 		{
@@ -63,12 +63,12 @@ QList<QLThemeable*> QLScrollArea::q_child_themeables(
 				if (QLThemeable* child_themeable =
 					dynamic_cast<QLThemeable*>(widget_child_object))
 				{
-					q_child_themeables.append(child_themeable);
+					child_qlthemeables.append(child_themeable);
 				}
 		}
 	}
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
 void QLScrollArea::setWidget(QWidget* widget)

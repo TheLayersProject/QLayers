@@ -43,7 +43,7 @@ public:
 
 	Layers::LAttribute* border_thickness() const;
 
-	virtual QList<QLThemeable*> q_child_themeables(
+	virtual QList<QLThemeable*> child_qlthemeables(
 		Qt::FindChildOptions options = Qt::FindDirectChildrenOnly
 	) override;
 

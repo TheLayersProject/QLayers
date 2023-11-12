@@ -90,12 +90,13 @@ mkdir "$(SolutionDir)$(IntDir)include"
 mkdir "$(SolutionDir)$(IntDir)lib"
 
 move "$(SolutionDir)$(IntDir)QLayers.dll" "$(SolutionDir)$(IntDir)bin\"
-xcopy /y /d /i /r "$(SolutionDir)x64\Debug\QLayersd.dll" "$(SolutionDir)$(IntDir)bin\"
+xcopy /y /d /r "$(SolutionDir)x64\Debug\QLayersd.dll" "$(SolutionDir)$(IntDir)bin\"
 
 move "$(SolutionDir)$(IntDir)QLayers.lib" "$(SolutionDir)$(IntDir)lib\"
-xcopy /y /d /i /r "$(SolutionDir)x64\Debug\QLayersd.lib" "$(SolutionDir)$(IntDir)lib\"
+xcopy /y /d /r "$(SolutionDir)x64\Debug\QLayersd.lib" "$(SolutionDir)$(IntDir)lib\"
 
 xcopy /y /d /i /r "$(SolutionDir)QLayers\include\QLayers" "$(SolutionDir)$(IntDir)include\QLayers\"
+xcopy /y /d /r "$(SolutionDir)LICENSE" "$(SolutionDir)$(IntDir)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

@@ -75,14 +75,14 @@ QLLabel::~QLLabel()
 		delete m_text_color;
 }
 
-QList<QLThemeable*> QLLabel::q_child_themeables(Qt::FindChildOptions options)
+QList<QLThemeable*> QLLabel::child_qlthemeables(Qt::FindChildOptions options)
 {
-	QList<QLThemeable*> q_child_themeables;
+	QList<QLThemeable*> child_qlthemeables;
 
 	if (m_graphic && m_graphic->svg_renderer())
-		q_child_themeables.append(m_graphic->svg_renderer());
+		child_qlthemeables.append(m_graphic->svg_renderer());
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
 LAttribute* QLLabel::fill() const

@@ -40,7 +40,7 @@ class QLAYERS_EXPORT QLTableView : public QTableView, public QLThemeable
 public:
 	QLTableView(QWidget* parent = nullptr);
 
-	virtual QList<QLThemeable*> q_child_themeables(
+	virtual QList<QLThemeable*> child_qlthemeables(
 		Qt::FindChildOptions options = Qt::FindDirectChildrenOnly) override;
 
 	void setItemDelegate(QAbstractItemDelegate* item_delegate);

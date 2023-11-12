@@ -60,15 +60,15 @@ LAttribute* QLComboBox::border_thickness() const
 	return m_border_thickness;
 }
 
-QList<QLThemeable*> QLComboBox::q_child_themeables(Qt::FindChildOptions options)
+QList<QLThemeable*> QLComboBox::child_qlthemeables(Qt::FindChildOptions options)
 {
-	QList<QLThemeable*> q_child_themeables =
-		QLThemeable::q_child_themeables(options);
+	QList<QLThemeable*> child_qlthemeables =
+		QLThemeable::child_qlthemeables(options);
 
 	if (QLThemeable* themeable_item_delegate =
 		dynamic_cast<QLThemeable*>(itemDelegate()))
 	{
-		q_child_themeables.append(themeable_item_delegate);
+		child_qlthemeables.append(themeable_item_delegate);
 
 		if (options == Qt::FindChildrenRecursively)
 		{
@@ -79,12 +79,12 @@ QList<QLThemeable*> QLComboBox::q_child_themeables(Qt::FindChildOptions options)
 				if (QLThemeable* child_themeable =
 					dynamic_cast<QLThemeable*>(delegate_child_object))
 				{
-					q_child_themeables.append(child_themeable);
+					child_qlthemeables.append(child_themeable);
 				}
 		}
 	}
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
 LAttribute* QLComboBox::corner_radius() const
@@ -237,7 +237,7 @@ void QLComboBox::paint_box(QPainter* painter)
 	/* Draw Border */
 	if (border_thickness)
 	{
-		if (auto stops = m_border_fill->as_if<std::vector<LString>>(s))
+		if (const auto& stops = m_border_fill->as_if<std::vector<LString>>(s))
 		{
 			QLinearGradient border_fill_grad;
 

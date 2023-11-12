@@ -32,20 +32,9 @@ using Layers::LThemeable;
 using QLayers::QLStatePool;
 using QLayers::QLThemeable;
 
-//void QLThemeable::add_share_themeable(LThemeable* themeable)
-//{
-//	if (themeable)
-//	{
-//		if (m_current_theme_item)
-//			themeable->apply_theme_item(m_current_theme_item);
-//
-//		m_share_themeables.append(themeable);
-//	}
-//}
-
 QLThemeable::QLThemeable() {}
 
-QLThemeable::QLThemeable(const LThemeable& other) :
+QLThemeable::QLThemeable(const QLThemeable& other) :
 	LThemeable(other) {}
 
 void QLThemeable::add_state_pool(QLStatePool* state_pool, bool include_children)
@@ -56,65 +45,9 @@ void QLThemeable::add_state_pool(QLStatePool* state_pool, bool include_children)
 		[this] { update(); });
 
 	if (include_children)
-		for (QLThemeable* child_themeable : q_child_themeables())
+		for (QLThemeable* child_themeable : child_qlthemeables())
 			child_themeable->add_state_pool(state_pool, include_children);
 }
-
-//void QLThemeable::apply_theme_item(LThemeItem* theme_item)
-//{
-//	if (theme_item)
-//	{
-//		if (_name() == QString::fromStdString(theme_item->object_name()))
-//		{
-//			m_current_theme_item = theme_item;
-//
-//			const auto& attributes_map = theme_item->attributes();
-//			if (!attributes_map.empty())
-//			{
-//				for (LAttribute* attr : child_attributes())
-//				{
-//					auto it = attributes_map.find(attr->object_name());
-//					if (it != attributes_map.end())
-//					{
-//						attr->set_theme_attribute(it->second);
-//					}
-//				}
-//			}
-//
-//			const auto& children_map = theme_item->children();
-//			if (!children_map.empty())
-//			{
-//				for (LThemeable* child_t : q_child_themeables())
-//				{
-//					auto it = children_map.find(child_t->_name().toStdString());
-//					if (it != children_map.end())
-//					{
-//						child_t->apply_theme_item(it->second);
-//					}
-//				}
-//			}
-//
-//			for (LThemeable* themeable : m_share_themeables)
-//			{
-//				themeable->apply_theme_item(m_current_theme_item);
-//			}
-//		}
-//	}
-//	else
-//	{
-//		m_current_theme_item = nullptr;
-//
-//		for (LAttribute* attr : child_attributes())
-//		{
-//			attr->clear_theme_attribute();
-//		}
-//
-//		for (LThemeable* child_t : q_child_themeables())
-//		{
-//			child_t->apply_theme_item(nullptr);
-//		}
-//	}
-//}
 
 QList<LAttribute*> QLThemeable::child_attributes(Qt::FindChildOptions options)
 {
@@ -131,7 +64,7 @@ QList<LAttribute*> QLThemeable::child_attributes(Qt::FindChildOptions options)
 
 		if (options == Qt::FindChildrenRecursively)
 		{
-			for (QLThemeable* child_themeable : q_child_themeables())
+			for (QLThemeable* child_themeable : child_qlthemeables())
 			{
 				child_attributes.append(
 					child_themeable->child_attributes(options));
@@ -142,33 +75,20 @@ QList<LAttribute*> QLThemeable::child_attributes(Qt::FindChildOptions options)
 	return child_attributes;
 }
 
-std::vector<LThemeable*> QLThemeable::child_themeables(bool recursive)
-{
-	std::vector<LThemeable*> children;
-
-	Qt::FindChildOptions options = recursive ?
-		Qt::FindChildrenRecursively : Qt::FindDirectChildrenOnly;
-
-	for (LThemeable* child : q_child_themeables(options))
-		children.push_back(child);
-
-	return children;
-}
-
-QList<QLThemeable*> QLThemeable::q_child_themeables(Qt::FindChildOptions options)
+QList<QLThemeable*> QLThemeable::child_qlthemeables(Qt::FindChildOptions options)
 {
 	/*	IMPORTANT NOTE:
 		This function only calls QObject::findChildren() with
 		Qt::FindDirectChildrenOnly, even if *options* is
 		Qt::FindChildrenRecursively. Recursion is handled after finding
-		the direct children and calling q_child_themeables() on them.
+		the direct children and calling child_qlthemeables() on them.
 
-		This is important because q_child_themeables() is a virtual function and
+		This is important because child_qlthemeables() is a virtual function and
 		calling QObject::findChildren() with Qt::FindChildrenRecursively will
-		cause subsequent q_child_themeables() calls to be missed.
+		cause subsequent child_qlthemeables() calls to be missed.
 	*/
 
-	QList<QLThemeable*> q_child_themeables;
+	QList<QLThemeable*> child_qlthemeables;
 
 	if (QObject* object = dynamic_cast<QObject*>(this))
 	{
@@ -180,22 +100,30 @@ QList<QLThemeable*> QLThemeable::q_child_themeables(Qt::FindChildOptions options
 			if (QLThemeable* child_themeable =
 				dynamic_cast<QLThemeable*>(child_object))
 			{
-				q_child_themeables.append(child_themeable);
+				child_qlthemeables.append(child_themeable);
 
 				if (options == Qt::FindChildrenRecursively)
-					q_child_themeables.append(
-						child_themeable->q_child_themeables(options));
+					child_qlthemeables.append(
+						child_themeable->child_qlthemeables(options));
 			}
 		}
 	}
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
-//LThemeItem* QLThemeable::current_theme_item() const
-//{
-//	return m_current_theme_item;
-//}
+std::vector<LThemeable*> QLThemeable::child_themeables(bool recursive)
+{
+	std::vector<LThemeable*> children;
+
+	Qt::FindChildOptions options = recursive ?
+		Qt::FindChildrenRecursively : Qt::FindDirectChildrenOnly;
+
+	for (LThemeable* child : child_qlthemeables(options))
+		children.push_back(child);
+
+	return children;
+}
 
 LString QLThemeable::path()
 {

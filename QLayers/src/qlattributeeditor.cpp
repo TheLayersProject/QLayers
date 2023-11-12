@@ -267,17 +267,17 @@ QLAttributeEditor::~QLAttributeEditor()
 	disconnect(m_new_link_widget_destroyed_connection);
 }
 
-QList<QLThemeable*> QLAttributeEditor::q_child_themeables(
+QList<QLThemeable*> QLAttributeEditor::child_qlthemeables(
 	Qt::FindChildOptions options)
 {
-	QList<QLThemeable*> q_child_themeables =
-		QLThemeable::q_child_themeables(options);
+	QList<QLThemeable*> child_qlthemeables =
+		QLThemeable::child_qlthemeables(options);
 
-	q_child_themeables.append(m_features_tab_bar);
-	q_child_themeables.append(m_links_widget);
-	q_child_themeables.append(m_overrides_widget);
+	child_qlthemeables.append(m_features_tab_bar);
+	child_qlthemeables.append(m_links_widget);
+	child_qlthemeables.append(m_overrides_widget);
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
 QLFillControl* QLAttributeEditor::fill_control() const

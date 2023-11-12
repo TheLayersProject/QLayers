@@ -64,14 +64,14 @@ QLThemeView::~QLThemeView()
 	disconnect(m_model_update_connection);
 }
 
-QList<QLThemeable*> QLThemeView::q_child_themeables(Qt::FindChildOptions options)
+QList<QLThemeable*> QLThemeView::child_qlthemeables(Qt::FindChildOptions options)
 {
-	QList<QLThemeable*> q_child_themeables = QLThemeable::q_child_themeables(options);
+	QList<QLThemeable*> child_qlthemeables = QLThemeable::child_qlthemeables(options);
 
-	q_child_themeables.append(m_horizontal_scrollbar);
-	q_child_themeables.append(m_vertical_scrollbar);
+	child_qlthemeables.append(m_horizontal_scrollbar);
+	child_qlthemeables.append(m_vertical_scrollbar);
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
 void QLThemeView::update()

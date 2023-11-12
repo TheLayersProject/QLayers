@@ -50,15 +50,15 @@ QLTableView::QLTableView(QWidget* parent) : QTableView(parent)
 	verticalHeader()->hide();
 }
 
-QList<QLThemeable*> QLTableView::q_child_themeables(Qt::FindChildOptions options)
+QList<QLThemeable*> QLTableView::child_qlthemeables(Qt::FindChildOptions options)
 {
-	QList<QLThemeable*> q_child_themeables =
-		QLThemeable::q_child_themeables(options);
+	QList<QLThemeable*> child_qlthemeables =
+		QLThemeable::child_qlthemeables(options);
 
 	if (QLThemeable* child_themeable_item_delegate =
 		dynamic_cast<QLThemeable*>(itemDelegate()))
 	{
-		q_child_themeables.append(child_themeable_item_delegate);
+		child_qlthemeables.append(child_themeable_item_delegate);
 
 		if (options == Qt::FindChildrenRecursively)
 		{
@@ -69,12 +69,12 @@ QList<QLThemeable*> QLTableView::q_child_themeables(Qt::FindChildOptions options
 				if (QLThemeable* child_themeable =
 					dynamic_cast<QLThemeable*>(delegate_child_object))
 				{
-					q_child_themeables.append(child_themeable);
+					child_qlthemeables.append(child_themeable);
 				}
 		}
 	}
 
-	return q_child_themeables;
+	return child_qlthemeables;
 }
 
 void QLTableView::setItemDelegate(QAbstractItemDelegate* item_delegate)

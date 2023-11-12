@@ -37,18 +37,18 @@ class QLAYERS_EXPORT QLThemeable : public Layers::LThemeable
 public:
 	QLThemeable();
 
-	QLThemeable(const Layers::LThemeable& other);
+	QLThemeable(const QLThemeable& other);
 
 	void add_state_pool(QLStatePool* state_pool, bool include_children = true);
 
 	QList<Layers::LAttribute*> child_attributes(
 		Qt::FindChildOptions options = Qt::FindDirectChildrenOnly);
 
+	virtual QList<QLThemeable*> child_qlthemeables(
+		Qt::FindChildOptions options = Qt::FindDirectChildrenOnly);
+
 	virtual std::vector<LThemeable*> child_themeables(
 		bool recursive = false) override;
-
-	virtual QList<QLThemeable*> q_child_themeables(
-		Qt::FindChildOptions options = Qt::FindDirectChildrenOnly);
 
 	virtual Layers::LString path() override;
 

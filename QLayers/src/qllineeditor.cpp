@@ -134,7 +134,7 @@ void QLLineEditor::update()
 
 	if (const auto& text_string = m_text->as_if<LString>())
 		text_qstring = QString::fromStdString(text_string->c_str());
-	else if (double* text_double = m_text->as_if<double>())
+	else if (const auto& text_double = m_text->as_if<double>())
 		text_qstring = QString::number(*text_double);
 
 	if (m_line_edit->text() != text_qstring)

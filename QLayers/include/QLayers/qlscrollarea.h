@@ -36,7 +36,7 @@ class QLAYERS_EXPORT QLScrollArea : public QScrollArea, public QLThemeable
 public:
 	QLScrollArea(QWidget* parent = nullptr);
 
-	virtual QList<QLThemeable*> q_child_themeables(
+	virtual QList<QLThemeable*> child_qlthemeables(
 		Qt::FindChildOptions options = Qt::FindDirectChildrenOnly
 	) override;
 
