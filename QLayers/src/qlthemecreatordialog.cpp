@@ -28,10 +28,10 @@
 using Layers::LString;
 using Layers::LTheme;
 
-using QLayers::LThemeCreatorDialog;
+using QLayers::QLThemeCreatorDialog;
 //using QLayers::QLThemeable;
 
-LThemeCreatorDialog::LThemeCreatorDialog(QWidget* parent) :
+QLThemeCreatorDialog::QLThemeCreatorDialog(QWidget* parent) :
 	QLDialog("Create Theme", parent)
 {
 	init_attributes();
@@ -99,22 +99,22 @@ LThemeCreatorDialog::LThemeCreatorDialog(QWidget* parent) :
 	m_create_button->set_padding(6);
 	m_create_button->setFixedHeight(30);
 	connect(m_create_button, &QLButton::clicked,
-		this, &LThemeCreatorDialog::create_theme);
+		this, &QLThemeCreatorDialog::create_theme);
 
 	apply_theme_item(activeTheme()->find_item(path()));
 }
 
-int LThemeCreatorDialog::exec()
+int QLThemeCreatorDialog::exec()
 {
 	m_name_editor->setFocus();
 
 	return QDialog::exec();
 }
 
-void LThemeCreatorDialog::create_theme()
+void QLThemeCreatorDialog::create_theme()
 {
-	LTheme* copy_theme = nullptr; // TEMP!
-		//m_parent_theme_combobox->currentData().value<LTheme*>();
+	LTheme* copy_theme =
+		m_parent_theme_combobox->currentData().value<LTheme*>();
 	LTheme* new_theme =
 		new LTheme(m_name_editor->text()->as<LString>());
 
@@ -140,7 +140,7 @@ void LThemeCreatorDialog::create_theme()
 	done(QDialog::Accepted);
 }
 
-void LThemeCreatorDialog::copy_directory(
+void QLThemeCreatorDialog::copy_directory(
 	const QDir& copy_dir, const QDir& new_dir,
 	const QList<QString>& filter_names)
 {
@@ -171,7 +171,7 @@ void LThemeCreatorDialog::copy_directory(
 	}
 }
 
-void LThemeCreatorDialog::init_attributes()
+void QLThemeCreatorDialog::init_attributes()
 {
 	m_name_editor->border_thickness()->set_value(3.0);
 	m_name_editor->corner_radii_top_left()->set_value(5.0);
@@ -181,7 +181,7 @@ void LThemeCreatorDialog::init_attributes()
 	m_name_editor->left_padding()->set_value(10.0);
 }
 
-void LThemeCreatorDialog::init_layout()
+void QLThemeCreatorDialog::init_layout()
 {
 	QVBoxLayout* layout = new QVBoxLayout;
 	layout->addWidget(m_name_label);

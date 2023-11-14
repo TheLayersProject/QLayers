@@ -209,7 +209,7 @@ bool QLMainWindow::nativeEvent(
 
 void QLMainWindow::new_theme_clicked()
 {
-	LThemeCreatorDialog dialog;
+	QLThemeCreatorDialog dialog;
 
 	center(&dialog, this);
 

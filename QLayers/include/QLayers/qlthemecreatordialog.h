@@ -28,12 +28,12 @@
 #include "Qlthemecombobox.h"
 
 QLAYERS_NAMESPACE_BEGIN
-class QLAYERS_EXPORT LThemeCreatorDialog : public QLDialog
+class QLAYERS_EXPORT QLThemeCreatorDialog : public QLDialog
 {
 	Q_OBJECT
 
 public:
-	LThemeCreatorDialog(QWidget* parent = nullptr);
+	QLThemeCreatorDialog(QWidget* parent = nullptr);
 
 public slots:
 	virtual int	exec() override;
