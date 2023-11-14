@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.0] - 2023-11-12
+## [0.1.0] - 2023-11-13
 
 Introducing QLayers, a C++ library for integrating Layers with Qt applications. All facilities in this library were previously maintained directory within Layers. The following are changes made to these facilities since **Layers 0.16**:
 
